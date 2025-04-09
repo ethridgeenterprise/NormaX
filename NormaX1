@@ -1,0 +1,22 @@
+import numpy as np
+
+def normax(x, mu=0, sigma=1, alpha=0.0, x0=0.0, beta=0.0, gamma=0.3):
+    """
+    NormaX: A behavior-aware distribution model based on the normal distribution.
+
+    Parameters:
+    - x : np.array – Input values (e.g. prices, scores)
+    - mu : float – Mean of the distribution
+    - sigma : float – Standard deviation
+    - alpha : float – Incentive strength
+    - x0 : float – Incentive threshold (e.g. price point)
+    - beta : float – Irrationality strength (tail exaggeration)
+    - gamma : float – Irrationality sharpness
+
+    Returns:
+    - np.array – Modified distribution values
+    """
+    normal = (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(- (x - mu)**2 / (2 * sigma**2))
+    incentive = alpha * (x - x0)
+    irrationality = beta * np.tanh(gamma * (x - mu))
+    return normal + incentive + irrationality
